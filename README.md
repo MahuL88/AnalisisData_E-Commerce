@@ -26,7 +26,7 @@ source env/bin/activate
 ### 4️⃣ Install Dependencies
 pip install -r requirements.txt
 
-## ▶️ Run steamlit app
+## 🚀 Run steamlit app
 streamlit run dashboard.py
 
 ## Struktur Direktori

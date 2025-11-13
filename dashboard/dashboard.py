@@ -5,7 +5,12 @@ import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from babel.numbers import format_currency
+import os
 sns.set(style='dark')
+
+# path ke folder dashboard.py
+BASE_DIR = os.path.dirname(__file__)  # path ke dashboard/
+DATA_DIR = os.path.join(BASE_DIR, "data")  # path ke dashboard/data
 
 st.set_page_config(layout="wide")
 
@@ -57,13 +62,13 @@ def create_monthly_orders_df(df):
 #-----------
 # Load Data
 #-----------
-kategori = pd.read_csv("data/category_sales.csv")
-cust = pd.read_csv("data/customer_geo_agg.csv")
-delay = pd.read_csv("data/orders_shipping.csv")
-rating = pd.read_csv("data/rating_rendah.csv")
-dist_rate = pd.read_csv("data/order_reviews.csv")
-seller = pd.read_csv("data/seller_volume.csv")
-revenue = pd.read_csv("data/revenue.csv")
+kategori = pd.read_csv(os.path.join(DATA_DIR, "category_sales.csv"))
+cust = pd.read_csv(os.path.join(DATA_DIR, "customer_geo_agg.csv"))
+delay = pd.read_csv(os.path.join(DATA_DIR, "orders_shipping.csv"))
+rating = pd.read_csv(os.path.join(DATA_DIR, "rating_rendah.csv"))
+dist_rate = pd.read_csv(os.path.join(DATA_DIR, "order_reviews.csv"))
+seller = pd.read_csv(os.path.join(DATA_DIR, "seller_volume.csv"))
+revenue = pd.read_csv(os.path.join(DATA_DIR, "revenue.csv"))
 
 # Kolom bertipe datetime
 datetime_columns = ["shipping_limit_date","order_delivered_carrier_date","order_purchase_timestamp"]
@@ -79,7 +84,7 @@ max_date = revenue["order_purchase_timestamp"].max()
  
 with st.sidebar:
     # Menambahkan logo perusahaan
-    st.image("https://raw.githubusercontent.com/MahuL88/AnalisisData_E-Commerce/main/logo_eCom.png")
+    st.image("https://raw.githubusercontent.com/MahuL88/AnalisisData_E-Commerce/main/Logo.png")
     
     # Informasi Tambahan
     highest_city = cust.loc[cust['jumlah_customer'].idxmax(), 'geolocation_city']
@@ -87,6 +92,8 @@ with st.sidebar:
 
     top_product = kategori.loc[kategori['jumlah_pembelian'].idxmax(), 'product_category_name_english']
     st.markdown(f"🛒 Produk yang paling laris 🔥: ***{top_product}***")
+
+    st.write("")
 
     # Mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
